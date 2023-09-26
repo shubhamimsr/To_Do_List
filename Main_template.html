@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Include Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        var tasks = [];
+        function addTask() {
+            var taskName = document.getElementById("taskName").value;
+            var taskDate = document.getElementById("taskDate").value;
+            var taskTime = document.getElementById("taskTime").value;
+
+            if (taskName && taskDate && taskTime) 
+            {
+                var task = {
+                    name: taskName,
+                    date: taskDate,
+                    time: taskTime
+                };
+                tasks.push(task);
+                updateTable();
+
+                document.getElementById("taskName").value = "";
+                document.getElementById("taskDate").value = "";
+                document.getElementById("taskTime").value = "";
+            } 
+            else 
+            {
+                alert("Please fill in all fields.");
+            }
+        }
+
+        function removeTask(index) {
+            tasks.splice(index, 1);
+            updateTable();
+        }
+
+        function updateTable() {
+            var tableBody = document.getElementById("taskTableBody");
+            tableBody.innerHTML = "";
+
+            for (var i = 0; i < tasks.length; i++) {
+                var task = tasks[i];
+                var row = tableBody.insertRow();
+
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+
+                cell1.innerHTML = task.name;
+                cell2.innerHTML = task.date;
+                cell3.innerHTML = task.time;
+                cell4.innerHTML = `<button class="btn btn-danger btn-sm" onclick="removeTask(${i})">Delete</button>`;
+            }
+        }
+    </script>
+</head>
+<body style="background-color:lightgrey;background-image: url(/images/bg_1.jpg);">
+    <h1 class="text-center mt-5">To-Do List</h1>
+
+    <!-- <div class="container mt-5" style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"> -->
+        <div class="container text-center row mt-3" style="margin-left: 8%;">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="taskName"><b>Task Name</b></label>
+                    <input type="text" class="form-control" id="taskName" placeholder="Enter Task"/>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="taskDate"><b>Date</b></label>
+                    <input type="date" class="form-control" id="taskDate" placeholder="Select Date"/>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="taskTime"><b>Time</b></label>
+                    <input type="time" class="form-control" id="taskTime" placeholder="Select Time of Execution"/>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3 text-center">
+            <button class="btn btn-primary" id="addTask" onclick="addTask()"><b>Add Task</b></button>
+        </div><hr style="width: 80%;"/>
+
+        <table class="table table-bordered table-dark table-striped mt-3 text-center"
+        style="width: 80%;margin-left: 10%;">
+            <thead>
+                <tr>
+                    <th scope="col">Task Name</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody id="taskTableBody">
+            </tbody>
+        </table>
+    <!-- </div> -->
+    </body>
+</html>
